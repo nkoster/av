@@ -7,17 +7,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type Product struct {
-	ID       int     `json:"id"`
-	Title    string  `json:"title"`
-	UrlTitle string  `json:"url_title"`
-	Image    string  `json:"image"`
-	Descr    string  `json:"descr"`
-	Specs    string  `json:"specs"`
-	Price    int     `json:"price"`
-	Weight   int     `json:"weight"`
-}
-
 func getProducts(c *fiber.Ctx) error {
 	defer timeTrack(time.Now(), "getProducts")
 	products, err := getProductsDetails()
