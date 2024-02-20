@@ -2,11 +2,15 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func getProducts(c *fiber.Ctx) error {
+
+	defer timeTrack(time.Now(), "getProducts")
+
 	titles, err := getProductTitles()
 	if err != nil {
 		fmt.Println(err)
