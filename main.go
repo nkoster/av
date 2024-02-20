@@ -2,7 +2,9 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
@@ -21,6 +23,10 @@ func main() {
 	}
 	
 	connect()
+
+	UI := os.Getenv("UI")
+	fmt.Printf("Serving static files: \t%s\n", UI)
+	app.Static("/", UI)
 
 	app.Get("/products/titles", getProducts)
 
