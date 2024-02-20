@@ -11,6 +11,17 @@ import (
 	_ "github.com/lib/pq"
 )
 
+type Product struct {
+	ID       int     `json:"id"`
+	Title    string  `json:"title"`
+	UrlTitle string  `json:"url_title"`
+	Image    string  `json:"image"`
+	Descr    string  `json:"descr"`
+	Specs    string  `json:"specs"`
+	Price    int     `json:"price"`
+	Weight   int     `json:"weight"`
+}
+
 var db *sql.DB
 var err error
 
@@ -28,7 +39,9 @@ func main() {
 	fmt.Printf("Serving static files: \t%s\n", UI)
 	app.Static("/", UI)
 
-	app.Get("/products/titles", getProducts)
+	app.Get("/products", getProducts)
+
+	app.Post("/newproduct", newProduct)
 
 	defer db.Close()
 	log.Fatal(app.Listen(":3000"))
