@@ -43,8 +43,8 @@ func main() {
 	app.Static("/", UI)
 
 	app.Get("/products", getProducts)
-
 	app.Post("/newproduct", newProduct)
+	app.Post("/updateproduct", updateProduct)
 
 	defer db.Close()
 	log.Fatal(app.Listen(":3000"))
