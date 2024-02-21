@@ -21,8 +21,8 @@ func newProduct(c *fiber.Ctx) error {
 	}
 
 	// Voeg het nieuwe product toe aan de database
-	_, err := db.Exec("INSERT INTO products (title, url_title, image, descr, specs, price, weight) VALUES ($1, $2, $3, $4, $5, $6, $7)",
-		p.Title, p.UrlTitle, p.Image, p.Descr, p.Specs, p.Price, p.Weight)
+	_, err := db.Exec("INSERT INTO products (title, url_title, images, descr, specs, price, weight, length, width, height) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+		p.Title, p.UrlTitle, p.Images, p.Descr, p.Specs, p.Price, p.Weight, p.Length, p.Width, p.Height)
 	if err != nil {
 		fmt.Println(err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{

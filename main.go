@@ -15,11 +15,14 @@ type Product struct {
 	ID       int     `json:"id"`
 	Title    string  `json:"title"`
 	UrlTitle string  `json:"url_title"`
-	Image    string  `json:"image"`
+	Images   string  `json:"images"`
 	Descr    string  `json:"descr"`
 	Specs    string  `json:"specs"`
 	Price    int     `json:"price"`
 	Weight   int     `json:"weight"`
+	Length   int     `json:"length"`
+	Width    int     `json:"width"`
+	Height   int     `json:"height"`
 }
 
 var db *sql.DB
