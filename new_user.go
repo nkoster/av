@@ -1,0 +1,33 @@
+package main
+
+import (
+	"github.com/gofiber/fiber/v2"
+	"golang.org/x/crypto/bcrypt"
+)
+
+func newUser(c *fiber.Ctx) error {
+	type User struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+
+	var user User
+	if err := c.BodyParser(&user); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Kan verzoek niet verwerken"})
+	}
+
+	// Het wachtwoord hashen
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Kan wachtwoord niet hashen"})
+	}
+
+	// Nieuwe gebruiker toevoegen aan de database
+	_, err = db.Exec("INSERT INTO users (username, password) VALUES ($1, $2)", user.Username, string(hashedPassword))
+	if err != nil {
+		// Mogelijk een unieke beperking overtreden of andere db-fouten
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Kan gebruiker niet aanmaken"})
+	}
+
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{"message": "Gebruiker succesvol aangemaakt"})
+}
