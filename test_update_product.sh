@@ -1,8 +1,8 @@
-curl -X POST http://localhost:3000/updateproduct \
+curl -X POST http://localhost:3000/api/updateproduct \
      -H 'Content-Type: application/json' \
      -d '{
            "id": 5,
-           "title": "Bijgewerkt Product",
+           "title": "Bijgewerkt Product 2",
            "url_title": "bijgewerkt-product",
            "images": "afbeelding.jpg",
            "descr": "Dit is een bijgewerkte beschrijving van het product.",
@@ -11,5 +11,5 @@ curl -X POST http://localhost:3000/updateproduct \
            "weight": 550,
            "length": 10,
            "width": 10,
-           "height": 10
+           "height": 20
          }'
