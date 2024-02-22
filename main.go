@@ -42,9 +42,12 @@ func main() {
 	fmt.Printf("Serving static files: \t%s\n", UI)
 	app.Static("/", UI)
 
+	app.Post("/login", login)
+	app.Use("/api", authenticate)
+	app.Post("/newuser", newUser)
 	app.Get("/products", getProducts)
-	app.Post("/newproduct", newProduct)
-	app.Post("/updateproduct", updateProduct)
+	app.Post("/api/newproduct", newProduct)
+	app.Post("/api/updateproduct", updateProduct)
 
 	defer db.Close()
 	log.Fatal(app.Listen(":3000"))
