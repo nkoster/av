@@ -7,39 +7,16 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/session/v2"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
-type Product struct {
-	ID       int     `json:"id"`
-	Title    string  `json:"title"`
-	UrlTitle string  `json:"url_title"`
-	Images   string  `json:"images"`
-	Descr    string  `json:"descr"`
-	Specs    string  `json:"specs"`
-	Price    int     `json:"price"`
-	Weight   int     `json:"weight"`
-	Length   int     `json:"length"`
-	Width    int     `json:"width"`
-	Height   int     `json:"height"`
-}
-
-type User struct {
-	FirstName string `json:"first_name"`
-	LastName string `json:"last_name"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Email string `json:"email"`
-	Phone string `json:"phone"`
-	StreetName string `json:"street_name"`
-	HouseNumber string `json:"house_number"`
-	City string `json:"city"`
-	PostalCode string `json:"postal_code"`
-}
-
 var db *sql.DB
 var err error
+
+var store = session.New()
 
 func main() {
 
@@ -48,20 +25,34 @@ func main() {
 	if err = godotenv.Load(); err != nil {
 		log.Fatal("No .env file in current directory.")
 	}
-	
+
 	connect()
 
 	UI := os.Getenv("UI")
 	fmt.Printf("Serving static files: \t%s\n", UI)
+
 	app.Static("/", UI)
 
-	app.Post("/login", login)
+	app.Use(cors.New(cors.Config{
+		AllowCredentials: true,
+	}))
+
 	app.Use("/api", authenticate)
+
+	app.Post("/login", login)
+
+	app.Get("/admin", authenticate, func(c *fiber.Ctx) error {
+		return c.SendString("Je bent ingelogd en hebt toegang tot deze beveiligde route!")
+	})
+
 	app.Post("/newuser", newUser)
 	app.Get("/products", getProducts)
+	app.Get("/users", authenticate, getUsers)
 	app.Post("/api/newproduct", newProduct)
 	app.Post("/api/updateproduct", updateProduct)
 
 	defer db.Close()
+
 	log.Fatal(app.Listen(":3000"))
+
 }
