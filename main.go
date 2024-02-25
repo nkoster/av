@@ -25,6 +25,19 @@ type Product struct {
 	Height   int     `json:"height"`
 }
 
+type User struct {
+	FirstName string `json:"first_name"`
+	LastName string `json:"last_name"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Email string `json:"email"`
+	Phone string `json:"phone"`
+	StreetName string `json:"street_name"`
+	HouseNumber string `json:"house_number"`
+	City string `json:"city"`
+	PostalCode string `json:"postal_code"`
+}
+
 var db *sql.DB
 var err error
 
