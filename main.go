@@ -25,6 +25,13 @@ func main() {
 	engine.Reload(true)
 	engine.Debug(true)
 
+	engine.AddFunc("mod", func(a, b int) int {
+        return a % b
+    })
+	engine.AddFunc("next", func(i int) int {
+		return i + 1
+	})
+
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})

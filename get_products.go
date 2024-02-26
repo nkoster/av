@@ -31,17 +31,12 @@ func getProductsDetails() ([]Product, error) {
 	}
 	defer rows.Close()
 
-	index := 1 // Initialiseer een index teller
 	for rows.Next() {
 		var p Product
 		if err := rows.Scan(&p.ID, &p.Title, &p.UrlTitle, &p.Images, &p.Descr, &p.Specs, &p.Price, &p.Weight, &p.Length, &p.Width, &p.Height); err != nil {
 			return nil, err
 		}
-		// Een soort van modulo implementatie omdat dat niet lukt via
-		// de html template engine in GoFiber...
-		p.IsThird = index%3 == 0 // Update naar index%3 == 0
 		products = append(products, p)
-		index++
 	}
 
 	if err = rows.Err(); err != nil {

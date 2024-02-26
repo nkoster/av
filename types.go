@@ -12,7 +12,6 @@ type Product struct {
 	Length   int     `json:"length"`
 	Width    int     `json:"width"`
 	Height   int     `json:"height"`
-	IsThird  bool // tbv ontbrekende mod functie in de html template engine
 }
 
   type User struct {

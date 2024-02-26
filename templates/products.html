@@ -1,5 +1,5 @@
 <ul>
     {{range $i, $p := .Products}}
-    <li>{{if .IsThird}} third {{end}} {{.Title}} - €{{.Price}}</li>
+    <li>{{if eq (mod (next $i) 3) 0}} third {{end}} {{.Title}} - €{{.Price}}</li>
     {{end}}
 </ul>
