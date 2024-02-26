@@ -12,14 +12,13 @@ func getProducts(c *fiber.Ctx) error {
 	products, err := getProductsDetails()
 	if err != nil {
 		fmt.Println(err)
-		// Terugsturen van een serverfout als het ophalen van de productgegevens mislukt
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Kan productgegevens niet ophalen",
 		})
 	}
 
-	return c.JSON(fiber.Map{
-		"products": products,
+	return c.Render("products", fiber.Map{
+		"Products": products,
 	})
 }
 
