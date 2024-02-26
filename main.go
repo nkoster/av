@@ -9,6 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/session/v2"
+	"github.com/gofiber/template/html/v2"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
@@ -20,7 +21,11 @@ var store = session.New()
 
 func main() {
 
-	app := fiber.New()
+	engine := html.New("./templates", ".html")
+
+	app := fiber.New(fiber.Config{
+		Views: engine,
+	})
 
 	if err = godotenv.Load(); err != nil {
 		log.Fatal("No .env file in current directory.")
