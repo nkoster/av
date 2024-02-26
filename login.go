@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -28,11 +30,14 @@ func login(c *fiber.Ctx) error {
     err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(request.Password))
     if err != nil {
         // Fout betekent dat het wachtwoord niet overeenkomt
-        return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Onjuiste gebruikersnaam of wachtwoord"})
+        return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Onjuiste email of wachtwoord"})
     }
 
     // Wachtwoord is correct, maak een sessie
-    sess := store.Get(c)
+    sess, err := store.Get(c)
+    if err != nil {
+        fmt.Println(err)
+    }
 
     // Sla de gebruikersinformatie op in de sessie
     sess.Set("email", request.Email)
