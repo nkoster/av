@@ -1,5 +1,5 @@
 <ul>
-    {{range .Products}}
-    <li>{{.Title}} - €{{.Price}}</li>
+    {{range $i, $p := .Products}}
+    <li>{{if .IsThird}} third {{end}} {{.Title}} - €{{.Price}}</li>
     {{end}}
 </ul>
