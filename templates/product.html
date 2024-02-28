@@ -1,0 +1,31 @@
+<div id="htmxProducts" class="about_section layout_padding">
+    <div class="container">
+       <div class="about_section_2">
+        <div class="row">
+            <div class="col-md-6">
+                <a href="#" hx-get="/products" hx-trigger="click" hx-target="#htmxProducts" hx-swap="outerHTML">terug naar producten</a>
+                <h1 class="about_taital">{{.Product.Title}}</h1>
+                <div class="image_iman"><img src="/images/p/{{.Product.Images}}" class="about_img"></div> 
+                <h2>Omschrijving</h2>
+                <p class="discription_text">{{.Product.Descr}}</p>
+                <div class="wrapper">
+                    <div class="specs">
+                        <h2>Specificaties</h2>
+                        {{.Product.Specs}}
+                    </div>
+                    <ul class="info-list">
+                        <li><strong>Gewicht in kg:</strong> {{.Product.Weight}} kg</li>
+                        <li><strong>Hoogte</strong> {{.Product.Height}} mm</li>
+                        <li><strong>Lengte</strong> {{.Product.Length}} mm</li>
+                        <li><strong>Breedte</strong> {{.Product.Width}} mm</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                <div class="price"><span style="color: #0e0c06;">€{{.Product.Price}}</span></div>
+                <div class="meta"><a href="">Verzending</a> en excl. btw.</div>
+                <div class="available"><a href="">Leverbaarheid</div>  
+            </div>
+        </div>
+   </div>
+</div>
