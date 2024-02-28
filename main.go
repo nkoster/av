@@ -61,6 +61,7 @@ func main() {
 
 	app.Post("/newuser", newUser)
 	app.Get("/products", getProducts)
+	app.Get("/product/:id", getProduct)
 	app.Get("/users", authenticate, getUsers)
 	app.Post("/api/newproduct", newProduct)
 	app.Post("/api/updateproduct", updateProduct)
