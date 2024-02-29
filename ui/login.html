@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Inlogpagina</title>
+</head>
+<body>
+
+<h2>Inloggen</h2>
+
+<form id="loginForm">
+    <label for="email">E-mail:</label><br>
+    <input type="email" id="email" name="email" required><br>
+    <label for="password">Wachtwoord:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+    <input type="submit" value="Inloggen">
+</form>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+
+    fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        }),
+    })
+    .then(response => {
+        if (response.ok) {
+            const preLoginUrl = localStorage.getItem('preLoginUrl') || sessionStorage.getItem('preLoginUrl');
+            console.log(preLoginUrl)
+            if (preLoginUrl) {
+                localStorage.removeItem('preLoginUrl');
+                sessionStorage.removeItem('preLoginUrl');
+                window.location.href = preLoginUrl;
+            } else {
+                // Standaard fallback als er geen opgeslagen URL is
+                // window.location.href = '/admin';
+            }
+        } else {
+            // Inloggen is mislukt
+            window.location.href = 'loginfailure.html'; // Stuur de gebruiker naar de loginfailure pagina
+        }
+    })
+    .catch((error) => {
+        console.error('Fout bij het inloggen:', error);
+        window.location.href = 'loginfailure.html'; // Stuur de gebruiker naar de loginfailure pagina in geval van een fout
+    });
+});
+</script>
+
+</body>
+</html>
