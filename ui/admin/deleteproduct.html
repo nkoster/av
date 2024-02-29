@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Verwijderen</title>
+    <script src="https://unpkg.com/htmx.org"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h2 {
+            color: #444;
+        }
+        .product-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .product-item {
+            background-color: #fff;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .product-info {
+            flex-grow: 1;
+        }
+        button {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Product Verwijderen</h2>
+
+<div hx-get="/api/manageproducts" hx-trigger="load" hx-swap="outerHTML">
+    <!-- Producten worden hier ingeladen -->
+</div>
+
+<script>
+function validateSession() {
+    fetch('/validatesession')
+        .then(response => {
+            if (!response.ok) {
+                // Als de sessie ongeldig is, omleiden naar login
+                localStorage.setItem('preLoginUrl', window.location.href);
+                sessionStorage.setItem('preLoginUrl', window.location.href);
+                window.location.href = "/login.html";
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Behandel netwerkfouten of serverfouten
+        });
+}
+
+// Voer de functie uit bij het laden van de pagina
+validateSession();
+
+document.addEventListener('htmx:afterSwap', () => {
+    document.querySelectorAll('.delete-form').forEach(form => {
+        form.addEventListener('submit', (e) => {
+            if (!confirm('Weet je zeker dat je dit product wilt verwijderen?')) {
+                e.preventDefault();
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>
