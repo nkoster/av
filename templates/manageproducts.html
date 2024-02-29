@@ -1,0 +1,40 @@
+<script>
+    function confirmDelete(productId) {
+        if (confirm('Weet je zeker dat je dit product wilt verwijderen?')) {
+            const url = `/api/deleteproduct/${productId}`;
+            htmx.ajax('GET', url, {
+                target: '#htmxItem',
+                success: () => {
+                    alert('Product is succesvol verwijderd.');
+                    // Optioneel: Herlaad de lijst of verwijder de HTML van het product
+                },
+                error: () => {
+                    alert('Er is een fout opgetreden bij het verwijderen van het product.');
+                }
+            });
+        }
+    }
+</script>
+
+<div id="htmxItem" class="gallery_section layout_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="gallery_taital">Producten</h1>
+            </div>
+        </div>
+        <div class="gallery_section_2">
+            <div class="row">
+                {{range $i, $p := .Products}}
+                <div>
+                    <ul>
+                        <li>
+                            {{$p.ID}} - {{$p.Title}} - <button type="button" onclick="confirmDelete('{{$p.ID}}')">Verwijder</button>
+                        </li>
+                    </ul>
+                </div>
+                {{end}}
+            </div>
+        </div>
+    </div>
+</div>
