@@ -59,11 +59,14 @@ func main() {
 		return c.SendString("Je bent ingelogd en hebt toegang tot deze beveiligde route!")
 	})
 
+	app.Get("/validatesession", validateSession)
 	app.Post("/newuser", newUser)
 	app.Get("/products", getProducts)
 	app.Get("/product/:id", getProduct)
 	app.Get("/users", authenticate, getUsers)
 	app.Post("/api/newproduct", newProduct)
+	app.Get("/api/deleteproduct/:id", deleteProduct)
+	app.Get("/api/manageproducts", manageProducts)
 	app.Post("/api/updateproduct", updateProduct)
 
 	defer db.Close()
