@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Gebruikerslijst</title>
+</head>
+<body>
+
+<h2>Gebruikerslijst</h2>
+
+<ul id="usersList">
+    <!-- Gebruikers zullen hier worden ingeladen -->
+</ul>
+
+<script>
+    function validateSession() {
+        fetch('/validatesession')
+            .then(response => {
+                if (!response.ok) {
+                    localStorage.setItem('preLoginUrl', window.location.href);
+                    sessionStorage.setItem('preLoginUrl', window.location.href);
+                    window.location.href = "/login.html";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Behandel netwerkfouten of serverfouten
+            });
+    }
+    
+    validateSession();
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/users', {
+            method: 'GET',
+            credentials: 'include' // Zorg ervoor dat cookies worden meegestuurd
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json(); // Verwerk de JSON alleen als de respons OK is
+            } else {
+                // Als de respons niet OK is, gooi een fout die de status en statusText bevat
+                throw new Error('Fout bij het laden van gebruikers: ' + response.status + ' ' + response.statusText);
+            }
+        })
+        .then(data => {
+            console.log('DATA', data)
+            const usersList = document.getElementById('usersList');
+            usersList.innerHTML = ''; // Maak de lijst leeg
+            data.users.forEach(user => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `First name: ${user.first_name}, Last name: ${user.last_name}`;
+                usersList.appendChild(listItem);
+            });
+        })
+        .catch(error => {
+            console.error(error); // Log de fout
+            // window.location.href = 'login.html'; // Stuur door naar login.html bij een fout
+        });
+    });
+</script>    
+
+</body>
+</html>
