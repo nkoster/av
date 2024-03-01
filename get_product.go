@@ -37,8 +37,8 @@ func getProductDetails(id int) (*Product, error) {
 	var product Product
 
 	// Pas de query aan om PostgreSQL's $1 placeholder te gebruiken voor de parameter
-	row := db.QueryRow("SELECT id, title, url_title, images, descr, specs, price, weight, length, width, height FROM products WHERE id = $1", id)
-	if err := row.Scan(&product.ID, &product.Title, &product.UrlTitle, &product.Images, &product.Descr, &product.Specs, &product.Price, &product.Weight, &product.Length, &product.Width, &product.Height); err != nil {
+	row := db.QueryRow("SELECT id, title, images, descr, specs, price, weight, length, width, height FROM products WHERE id = $1", id)
+	if err := row.Scan(&product.ID, &product.Title, &product.Images, &product.Descr, &product.Specs, &product.Price, &product.Weight, &product.Length, &product.Width, &product.Height); err != nil {
 		return nil, err
 	}
 
