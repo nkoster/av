@@ -28,9 +28,11 @@ func updateProduct(c *fiber.Ctx) error {
 		})
 	}
 
+	fmt.Printf("update_product.go: %+v\n\n", p)
+
 	// Werk het product bij in de database
-	_, err := db.Exec("UPDATE products SET title = $1, url_title = $2, images = $3, descr = $4, specs = $5, price = $6, weight = $7, length = $8, width = $9, height = $10 WHERE id = $11",
-		p.Title, p.UrlTitle, p.Images, p.Descr, p.Specs, p.Price, p.Weight, p.Length, p.Width, p.Height, p.ID)
+	_, err := db.Exec("UPDATE products SET title = $1, images = $2, descr = $3, specs = $4, price = $5, weight = $6, length = $7, width = $8, height = $9 WHERE id = $10",
+		p.Title, p.Images, p.Descr, p.Specs, p.Price, p.Weight, p.Length, p.Width, p.Height, p.ID)
 	if err != nil {
 		fmt.Println(err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
