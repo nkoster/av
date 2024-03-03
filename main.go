@@ -66,6 +66,7 @@ func main() {
 	app.Get("/productjson/:id", getProductJSON)
 	app.Get("/users", authenticate, getUsers)
 	app.Post("/api/newproduct", newProduct)
+	app.Post("/api/uploadimages", uploadImages)
 	app.Get("/api/deleteproduct/:id", deleteProduct)
 	app.Get("/api/manageproducts", manageProducts)
 	app.Post("/api/updateproduct", updateProduct)
