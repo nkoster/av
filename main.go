@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -30,6 +31,9 @@ func main() {
     })
 	engine.AddFunc("next", func(i int) int {
 		return i + 1
+	})
+	engine.AddFunc("images", func (input string) []string {
+		return strings.Split(input, ",")
 	})
 
 	app := fiber.New(fiber.Config{
