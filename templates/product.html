@@ -5,7 +5,9 @@
             <div class="col-md-6">
                 <a href="#" hx-get="/products" hx-trigger="click" hx-target="#htmxProducts" hx-swap="outerHTML">terug naar producten</a>
                 <h1 class="about_taital">{{.Product.Title}}</h1>
-                <div class="image_iman"><img src="/images/p/{{.Product.Images}}" class="about_img"></div> 
+                <div class="image_iman">
+                    <img src="/images/p/{{index (images .Product.Images) 0}}" class="about_img">
+                </div>
                 <h2>Omschrijving</h2>
                 <p class="discription_text">{{.Product.Descr}}</p>
                 <div class="wrapper">
