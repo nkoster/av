@@ -30,6 +30,12 @@ func uploadImages(c *fiber.Ctx) error {
 
 		// Voeg de bestandsnaam toe aan de lijst van geüploade bestanden
 		uploadedFiles = append(uploadedFiles, file.Filename)
+
+		// Maak een thumbnail naam en voeg die ook toe aan de lijst
+		thumbnailName := "thumbnail_" + file.Filename
+		// (genereer thumbnails hier)
+		uploadedFiles = append(uploadedFiles, thumbnailName)
+
 	}
 
 	// Retourneer de lijst van bestandsnamen gescheiden door komma's
