@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
+	"time"
 )
 
 func connect() {
@@ -12,8 +15,12 @@ func connect() {
 	password := os.Getenv("PG_PASS")
 	socketDir := "/var/run/postgresql"
 	connStr := fmt.Sprintf("postgres://%s:%s@/%s?host=%s", user, password, dbName, socketDir)
-	db, err = sql.Open("postgres", connStr)
-	if err != nil {
-		fmt.Println("Fout bij het verbinden met de database:", err)
+	if db, err = sql.Open("postgres", connStr); err != nil {
+		log.Fatal(err)
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := db.PingContext(ctx); err != nil {
+		log.Fatalf("Failed to connect to the database: %v", err)
 	}
 }
