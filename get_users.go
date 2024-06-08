@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"time"
 
@@ -12,9 +13,8 @@ func getUsers(c *fiber.Ctx) error {
 	users, err := getUsersDetails()
 	if err != nil {
 		fmt.Println(err)
-		// Terugsturen van een serverfout als het ophalen van de productgegevens mislukt
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": "Kan productgegevens niet ophalen",
+			"error": "Cannot get users.",
 		})
 	}
 
@@ -26,15 +26,20 @@ func getUsers(c *fiber.Ctx) error {
 func getUsersDetails() ([]User, error) {
 	var users []User
 
-	rows, err := db.Query("SELECT id, first_name, last_name FROM users")
+	rows, err := db.Query("SELECT id, first_name, last_name, email FROM users")
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+
+		}
+	}(rows)
 
 	for rows.Next() {
 		var p User
-		if err := rows.Scan(&p.ID, &p.FirstName, &p.LastName); err != nil {
+		if err := rows.Scan(&p.ID, &p.FirstName, &p.LastName, &p.Email); err != nil {
 			return nil, err
 		}
 		users = append(users, p)
