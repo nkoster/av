@@ -11,9 +11,10 @@
         <div class="col-md-4">
           <div class="gallery_box">
             <div class="gallery_img"><img src="images/p/{{index (images $p.Images) 0}}" /></div>
+            <script>console.log("IMAGE: {{index (images $p.Images) 0}}")</script>
             <h3 class="types_text">{{$p.Title}}</h3>
             <p class="looking_text">Start per dag €{{$p.Price}}</p>
-            <div class="read_bt"><a href="#" hx-get="/product/{{$p.ID}}" hx-trigger="click" hx-target="#htmxItem" hx-swap="outerHTML">Boek Nu</a></div>
+            <div class="read_bt"><a href="#" hx-get="/product/{{$p.ID}}" hx-trigger="click" hx-target="#htmxItem" hx-swap="outerHTML">Details</a></div>
           </div>
         </div>
         {{end}}
