@@ -48,7 +48,7 @@
             usersList.innerHTML = ''; // Maak de lijst leeg
             data.users.forEach(user => {
                 const listItem = document.createElement('li');
-                listItem.textContent = `First name: ${user.first_name}, Last name: ${user.last_name}`;
+                listItem.textContent = `${user.first_name} ${user.last_name}, ${user.email}`;
                 usersList.appendChild(listItem);
             });
         })
