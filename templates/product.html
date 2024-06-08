@@ -1,33 +1,55 @@
 <div id="htmxProducts" class="about_section layout_padding">
     <div class="container">
-       <div class="about_section_2">
-        <div class="row">
-            <div class="col-md-6">
-                <a href="#" hx-get="/products" hx-trigger="click" hx-target="#htmxProducts" hx-swap="outerHTML">terug naar producten</a>
-                <h1 class="about_taital">{{.Product.Title}}</h1>
-                <div class="image_iman">
-                    <img src="/images/p/{{index (images .Product.Images) 0}}" class="about_img">
-                </div>
-                <h2>Omschrijving</h2>
-                <p class="discription_text">{{.Product.Descr}}</p>
-                <div class="wrapper">
-                    <div class="specs">
-                        <h2>Specificaties</h2>
-                        {{.Product.Specs}}
+        <div class="about_section_2">
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="#" hx-get="/products" hx-trigger="click" hx-target="#htmxProducts" hx-swap="outerHTML">terug naar producten</a>
+                    <h1 class="about_taital">{{.Product.Title}}</h1>
+                    <div class="image_iman">
+                        <img src="/images/p/{{index (images .Product.Images) 0}}" id="rotatingImage" class="about_img" onclick="rotateImage()">
                     </div>
-                    <ul class="info-list">
-                        <li><strong>Gewicht in kg:</strong> {{.Product.Weight}} kg</li>
-                        <li><strong>Hoogte</strong> {{.Product.Height}} mm</li>
-                        <li><strong>Lengte</strong> {{.Product.Length}} mm</li>
-                        <li><strong>Breedte</strong> {{.Product.Width}} mm</li>
-                    </ul>
+                    <script>
+                      var images = [
+                        {{range images .Product.Images}}
+                            "/images/p/{{.}}",
+                        {{end}}
+                      ];
+                      console.log('IMAGES:', images);
+                      var currentIndex = 0; // Start bij de eerste afbeelding
+
+                      function rotateImage() {
+                        currentIndex++; // Verhoog de index
+                        if (currentIndex >= images.length) {
+                          currentIndex = 0; // Reset naar 0 als het de laatste afbeelding is
+                        }
+                        document.getElementById('rotatingImage').src = images[currentIndex]; // Update de bron van de afbeelding
+                      }
+                    </script>
+                    <h2>Omschrijving</h2>
+                    <p class="discription_text">{{.Product.Descr}}</p>
+                    <div class="wrapper">
+                        <div class="specs">
+                            <h2>Specificaties</h2>
+                            <ul>
+                                {{- range $spec := splitLines .Product.Specs }}
+                                <li style="margin-left: 20px">{{ $spec }}</li>
+                                {{- end }}
+                            </ul>
+                        </div>
+                        <ul class="info-list" style="list-style: none">
+                            <li><strong>Gewicht &nbsp;</strong> {{.Product.Weight}} kg</li>
+                            <li><strong>Hoogte &nbsp;</strong> {{.Product.Height}} mm</li>
+                            <li><strong>Lengte &nbsp;</strong> {{.Product.Length}} mm</li>
+                            <li><strong>Breedte &nbsp;</strong> {{.Product.Width}} mm</li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6"> 
-                <div class="price"><span style="color: #0e0c06;">€{{.Product.Price}}</span></div>
-                <div class="meta"><a href="">Verzending</a> en excl. btw.</div>
-                <div class="available"><a href="">Leverbaarheid</div>  
+                <div class="col-md-6">
+                    <div class="price"><span style="color: #0e0c06;">€{{.Product.Price}}</span></div>
+                    <div class="meta"><a href="">Verzending</a> en excl. btw.</div>
+                    <div class="available"><a href="">Leverbaarheid</a></div>
+                </div>
             </div>
         </div>
-   </div>
+    </div>
 </div>
