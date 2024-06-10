@@ -40,7 +40,6 @@ func updateProduct(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.JSON(fiber.Map{
-		"message": "Product succesvol bijgewerkt",
-	})
+	return c.SendString("<h2>Product updated!</h2><script>window.setTimeout(() => window.location.reload(), 3000);</script>")
+
 }
